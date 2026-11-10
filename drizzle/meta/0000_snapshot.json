@@ -1,0 +1,1421 @@
+{
+  "version": "6",
+  "dialect": "sqlite",
+  "id": "d3433384-61af-4fdb-93b0-3557bc7ce0da",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "tables": {
+    "activities": {
+      "name": "activities",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "workspace_id": {
+          "name": "workspace_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "type": {
+          "name": "type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "lead_id": {
+          "name": "lead_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "customer_id": {
+          "name": "customer_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "operator_id": {
+          "name": "operator_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "actor_id": {
+          "name": "actor_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "data": {
+          "name": "data",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "activities_workspace_created_idx": {
+          "name": "activities_workspace_created_idx",
+          "columns": [
+            "workspace_id",
+            "created_at"
+          ],
+          "isUnique": false
+        },
+        "activities_lead_created_idx": {
+          "name": "activities_lead_created_idx",
+          "columns": [
+            "lead_id",
+            "created_at"
+          ],
+          "isUnique": false
+        },
+        "activities_customer_created_idx": {
+          "name": "activities_customer_created_idx",
+          "columns": [
+            "customer_id",
+            "created_at"
+          ],
+          "isUnique": false
+        },
+        "activities_operator_created_idx": {
+          "name": "activities_operator_created_idx",
+          "columns": [
+            "operator_id",
+            "created_at"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "activities_workspace_id_workspaces_id_fk": {
+          "name": "activities_workspace_id_workspaces_id_fk",
+          "tableFrom": "activities",
+          "tableTo": "workspaces",
+          "columnsFrom": [
+            "workspace_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "activities_lead_id_leads_id_fk": {
+          "name": "activities_lead_id_leads_id_fk",
+          "tableFrom": "activities",
+          "tableTo": "leads",
+          "columnsFrom": [
+            "lead_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "activities_customer_id_customers_id_fk": {
+          "name": "activities_customer_id_customers_id_fk",
+          "tableFrom": "activities",
+          "tableTo": "customers",
+          "columnsFrom": [
+            "customer_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "activities_operator_id_operators_id_fk": {
+          "name": "activities_operator_id_operators_id_fk",
+          "tableFrom": "activities",
+          "tableTo": "operators",
+          "columnsFrom": [
+            "operator_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "activities_actor_id_users_id_fk": {
+          "name": "activities_actor_id_users_id_fk",
+          "tableFrom": "activities",
+          "tableTo": "users",
+          "columnsFrom": [
+            "actor_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "activities_single_subject_ck": {
+          "name": "activities_single_subject_ck",
+          "value": "((\"activities\".\"lead_id\" is not null) + (\"activities\".\"customer_id\" is not null) + (\"activities\".\"operator_id\" is not null)) <= 1"
+        }
+      }
+    },
+    "customers": {
+      "name": "customers",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "workspace_id": {
+          "name": "workspace_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "full_name": {
+          "name": "full_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "company_name": {
+          "name": "company_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "phone": {
+          "name": "phone",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "preferred_contact": {
+          "name": "preferred_contact",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "notes": {
+          "name": "notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "client_request_id": {
+          "name": "client_request_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "version": {
+          "name": "version",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 1
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "customers_workspace_name_idx": {
+          "name": "customers_workspace_name_idx",
+          "columns": [
+            "workspace_id",
+            "full_name"
+          ],
+          "isUnique": false
+        },
+        "customers_workspace_email_idx": {
+          "name": "customers_workspace_email_idx",
+          "columns": [
+            "workspace_id",
+            "email"
+          ],
+          "isUnique": false
+        },
+        "customers_workspace_phone_idx": {
+          "name": "customers_workspace_phone_idx",
+          "columns": [
+            "workspace_id",
+            "phone"
+          ],
+          "isUnique": false
+        },
+        "customers_workspace_request_uq": {
+          "name": "customers_workspace_request_uq",
+          "columns": [
+            "workspace_id",
+            "client_request_id"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "customers_workspace_id_workspaces_id_fk": {
+          "name": "customers_workspace_id_workspaces_id_fk",
+          "tableFrom": "customers",
+          "tableTo": "workspaces",
+          "columnsFrom": [
+            "workspace_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "customers_reachable_ck": {
+          "name": "customers_reachable_ck",
+          "value": "\"customers\".\"email\" is not null or \"customers\".\"phone\" is not null"
+        },
+        "customers_preferred_contact_ck": {
+          "name": "customers_preferred_contact_ck",
+          "value": "(\"customers\".\"preferred_contact\" is null or \"customers\".\"preferred_contact\" in ('phone', 'text', 'email'))"
+        }
+      }
+    },
+    "lead_stops": {
+      "name": "lead_stops",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "lead_id": {
+          "name": "lead_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "position": {
+          "name": "position",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "location": {
+          "name": "location",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "note": {
+          "name": "note",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "lead_stops_position_uq": {
+          "name": "lead_stops_position_uq",
+          "columns": [
+            "lead_id",
+            "position"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "lead_stops_lead_id_leads_id_fk": {
+          "name": "lead_stops_lead_id_leads_id_fk",
+          "tableFrom": "lead_stops",
+          "tableTo": "leads",
+          "columnsFrom": [
+            "lead_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "leads": {
+      "name": "leads",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "workspace_id": {
+          "name": "workspace_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "number": {
+          "name": "number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "customer_id": {
+          "name": "customer_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "lost_reason": {
+          "name": "lost_reason",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "priority": {
+          "name": "priority",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'normal'"
+        },
+        "source": {
+          "name": "source",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "occasion": {
+          "name": "occasion",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "event_name": {
+          "name": "event_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "service_type": {
+          "name": "service_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "trip_date": {
+          "name": "trip_date",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pickup_time": {
+          "name": "pickup_time",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "time_zone": {
+          "name": "time_zone",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "pickup_at": {
+          "name": "pickup_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "duration_minutes": {
+          "name": "duration_minutes",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pickup_location": {
+          "name": "pickup_location",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "destination": {
+          "name": "destination",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "passengers_min": {
+          "name": "passengers_min",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "passengers_max": {
+          "name": "passengers_max",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "vehicle_category": {
+          "name": "vehicle_category",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "budget_cents": {
+          "name": "budget_cents",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "follow_up_date": {
+          "name": "follow_up_date",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "follow_up_note": {
+          "name": "follow_up_note",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "notes": {
+          "name": "notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "status_changed_at": {
+          "name": "status_changed_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "qualified_at": {
+          "name": "qualified_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "first_response_at": {
+          "name": "first_response_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "last_activity_at": {
+          "name": "last_activity_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_by_id": {
+          "name": "created_by_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "client_request_id": {
+          "name": "client_request_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "version": {
+          "name": "version",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 1
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "leads_workspace_number_uq": {
+          "name": "leads_workspace_number_uq",
+          "columns": [
+            "workspace_id",
+            "number"
+          ],
+          "isUnique": true
+        },
+        "leads_workspace_request_uq": {
+          "name": "leads_workspace_request_uq",
+          "columns": [
+            "workspace_id",
+            "client_request_id"
+          ],
+          "isUnique": true
+        },
+        "leads_workspace_status_idx": {
+          "name": "leads_workspace_status_idx",
+          "columns": [
+            "workspace_id",
+            "status"
+          ],
+          "isUnique": false
+        },
+        "leads_workspace_trip_idx": {
+          "name": "leads_workspace_trip_idx",
+          "columns": [
+            "workspace_id",
+            "trip_date"
+          ],
+          "isUnique": false
+        },
+        "leads_workspace_follow_up_idx": {
+          "name": "leads_workspace_follow_up_idx",
+          "columns": [
+            "workspace_id",
+            "follow_up_date"
+          ],
+          "isUnique": false
+        },
+        "leads_workspace_created_idx": {
+          "name": "leads_workspace_created_idx",
+          "columns": [
+            "workspace_id",
+            "created_at"
+          ],
+          "isUnique": false
+        },
+        "leads_customer_idx": {
+          "name": "leads_customer_idx",
+          "columns": [
+            "customer_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "leads_workspace_id_workspaces_id_fk": {
+          "name": "leads_workspace_id_workspaces_id_fk",
+          "tableFrom": "leads",
+          "tableTo": "workspaces",
+          "columnsFrom": [
+            "workspace_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "leads_customer_id_customers_id_fk": {
+          "name": "leads_customer_id_customers_id_fk",
+          "tableFrom": "leads",
+          "tableTo": "customers",
+          "columnsFrom": [
+            "customer_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "no action"
+        },
+        "leads_created_by_id_users_id_fk": {
+          "name": "leads_created_by_id_users_id_fk",
+          "tableFrom": "leads",
+          "tableTo": "users",
+          "columnsFrom": [
+            "created_by_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "leads_status_ck": {
+          "name": "leads_status_ck",
+          "value": "\"leads\".\"status\" in ('new', 'contacted', 'qualified', 'on_hold', 'lost')"
+        },
+        "leads_lost_reason_ck": {
+          "name": "leads_lost_reason_ck",
+          "value": "(\"leads\".\"status\" = 'lost' and \"leads\".\"lost_reason\" is not null and \"leads\".\"lost_reason\" in ('no_response', 'chose_competitor', 'budget', 'trip_cancelled', 'not_a_fit', 'duplicate', 'spam', 'other')) or (\"leads\".\"status\" <> 'lost' and \"leads\".\"lost_reason\" is null)"
+        },
+        "leads_priority_ck": {
+          "name": "leads_priority_ck",
+          "value": "\"leads\".\"priority\" in ('low', 'normal', 'high', 'urgent')"
+        },
+        "leads_source_ck": {
+          "name": "leads_source_ck",
+          "value": "\"leads\".\"source\" in ('website', 'phone', 'email', 'referral', 'partner', 'repeat', 'instagram', 'google', 'other')"
+        },
+        "leads_occasion_ck": {
+          "name": "leads_occasion_ck",
+          "value": "(\"leads\".\"occasion\" is null or \"leads\".\"occasion\" in ('wedding', 'corporate', 'airport', 'bachelor', 'birthday', 'nightlife', 'prom', 'concert_sports', 'wine_tour', 'funeral', 'group_event', 'other'))"
+        },
+        "leads_service_type_ck": {
+          "name": "leads_service_type_ck",
+          "value": "(\"leads\".\"service_type\" is null or \"leads\".\"service_type\" in ('one_way', 'round_trip', 'hourly'))"
+        },
+        "leads_vehicle_ck": {
+          "name": "leads_vehicle_ck",
+          "value": "(\"leads\".\"vehicle_category\" is null or \"leads\".\"vehicle_category\" in ('sedan', 'suv', 'sprinter', 'stretch_limo', 'suv_limo', 'party_bus', 'mini_coach', 'motor_coach', 'trolley', 'no_preference'))"
+        },
+        "leads_passengers_ck": {
+          "name": "leads_passengers_ck",
+          "value": "(\"leads\".\"passengers_min\" is null and \"leads\".\"passengers_max\" is null) or (\"leads\".\"passengers_min\" is not null and \"leads\".\"passengers_max\" is not null and \"leads\".\"passengers_min\" >= 1 and \"leads\".\"passengers_max\" >= \"leads\".\"passengers_min\")"
+        },
+        "leads_budget_ck": {
+          "name": "leads_budget_ck",
+          "value": "\"leads\".\"budget_cents\" is null or \"leads\".\"budget_cents\" >= 0"
+        },
+        "leads_duration_ck": {
+          "name": "leads_duration_ck",
+          "value": "\"leads\".\"duration_minutes\" is null or \"leads\".\"duration_minutes\" > 0"
+        },
+        "leads_trip_date_ck": {
+          "name": "leads_trip_date_ck",
+          "value": "(\"leads\".\"trip_date\" is null or \"leads\".\"trip_date\" glob '[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]')"
+        },
+        "leads_follow_up_date_ck": {
+          "name": "leads_follow_up_date_ck",
+          "value": "(\"leads\".\"follow_up_date\" is null or \"leads\".\"follow_up_date\" glob '[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]')"
+        },
+        "leads_pickup_time_ck": {
+          "name": "leads_pickup_time_ck",
+          "value": "\"leads\".\"pickup_time\" is null or (\"leads\".\"trip_date\" is not null and \"leads\".\"pickup_time\" glob '[0-2][0-9]:[0-5][0-9]')"
+        },
+        "leads_follow_up_note_ck": {
+          "name": "leads_follow_up_note_ck",
+          "value": "\"leads\".\"follow_up_note\" is null or \"leads\".\"follow_up_date\" is not null"
+        },
+        "leads_qualified_facts_ck": {
+          "name": "leads_qualified_facts_ck",
+          "value": "\"leads\".\"status\" <> 'qualified' or (\"leads\".\"trip_date\" is not null and \"leads\".\"pickup_location\" is not null and \"leads\".\"passengers_min\" is not null)"
+        }
+      }
+    },
+    "operator_compliance": {
+      "name": "operator_compliance",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "operator_id": {
+          "name": "operator_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "kind": {
+          "name": "kind",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "label": {
+          "name": "label",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "reference": {
+          "name": "reference",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "expires_on": {
+          "name": "expires_on",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "verified_on": {
+          "name": "verified_on",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "verified_by_id": {
+          "name": "verified_by_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "evidence_note": {
+          "name": "evidence_note",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "operator_compliance_operator_idx": {
+          "name": "operator_compliance_operator_idx",
+          "columns": [
+            "operator_id"
+          ],
+          "isUnique": false
+        },
+        "operator_compliance_kind_uq": {
+          "name": "operator_compliance_kind_uq",
+          "columns": [
+            "operator_id",
+            "kind"
+          ],
+          "isUnique": true,
+          "where": "\"operator_compliance\".\"kind\" <> 'other'"
+        }
+      },
+      "foreignKeys": {
+        "operator_compliance_operator_id_operators_id_fk": {
+          "name": "operator_compliance_operator_id_operators_id_fk",
+          "tableFrom": "operator_compliance",
+          "tableTo": "operators",
+          "columnsFrom": [
+            "operator_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "operator_compliance_verified_by_id_users_id_fk": {
+          "name": "operator_compliance_verified_by_id_users_id_fk",
+          "tableFrom": "operator_compliance",
+          "tableTo": "users",
+          "columnsFrom": [
+            "verified_by_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "operator_compliance_kind_ck": {
+          "name": "operator_compliance_kind_ck",
+          "value": "\"operator_compliance\".\"kind\" in ('insurance', 'usdot', 'state_authority', 'local_license', 'vehicle_inspection', 'chauffeur_screening', 'other')"
+        },
+        "operator_compliance_status_ck": {
+          "name": "operator_compliance_status_ck",
+          "value": "\"operator_compliance\".\"status\" in ('reported', 'received', 'verified', 'issue')"
+        },
+        "operator_compliance_label_ck": {
+          "name": "operator_compliance_label_ck",
+          "value": "\"operator_compliance\".\"kind\" <> 'other' or \"operator_compliance\".\"label\" is not null"
+        },
+        "operator_compliance_dates_ck": {
+          "name": "operator_compliance_dates_ck",
+          "value": "(\"operator_compliance\".\"expires_on\" is null or \"operator_compliance\".\"expires_on\" glob '[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]') and (\"operator_compliance\".\"verified_on\" is null or \"operator_compliance\".\"verified_on\" glob '[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]')"
+        },
+        "operator_compliance_evidence_ck": {
+          "name": "operator_compliance_evidence_ck",
+          "value": "\"operator_compliance\".\"status\" <> 'verified' or (\"operator_compliance\".\"verified_on\" is not null and \"operator_compliance\".\"evidence_note\" is not null)"
+        }
+      }
+    },
+    "operator_vehicles": {
+      "name": "operator_vehicles",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "operator_id": {
+          "name": "operator_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "category": {
+          "name": "category",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "label": {
+          "name": "label",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "quantity": {
+          "name": "quantity",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 1
+        },
+        "capacity": {
+          "name": "capacity",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "amenities": {
+          "name": "amenities",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'[]'"
+        },
+        "notes": {
+          "name": "notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "verified_on": {
+          "name": "verified_on",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "verification_note": {
+          "name": "verification_note",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "operator_vehicles_operator_idx": {
+          "name": "operator_vehicles_operator_idx",
+          "columns": [
+            "operator_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "operator_vehicles_operator_id_operators_id_fk": {
+          "name": "operator_vehicles_operator_id_operators_id_fk",
+          "tableFrom": "operator_vehicles",
+          "tableTo": "operators",
+          "columnsFrom": [
+            "operator_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "operator_vehicles_category_ck": {
+          "name": "operator_vehicles_category_ck",
+          "value": "\"operator_vehicles\".\"category\" in ('sedan', 'suv', 'sprinter', 'stretch_limo', 'suv_limo', 'party_bus', 'mini_coach', 'motor_coach', 'trolley')"
+        },
+        "operator_vehicles_quantity_ck": {
+          "name": "operator_vehicles_quantity_ck",
+          "value": "\"operator_vehicles\".\"quantity\" >= 1"
+        },
+        "operator_vehicles_capacity_ck": {
+          "name": "operator_vehicles_capacity_ck",
+          "value": "\"operator_vehicles\".\"capacity\" is null or \"operator_vehicles\".\"capacity\" > 0"
+        },
+        "operator_vehicles_verified_on_ck": {
+          "name": "operator_vehicles_verified_on_ck",
+          "value": "(\"operator_vehicles\".\"verified_on\" is null or \"operator_vehicles\".\"verified_on\" glob '[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]')"
+        },
+        "operator_vehicles_verification_ck": {
+          "name": "operator_vehicles_verification_ck",
+          "value": "(\"operator_vehicles\".\"verified_on\" is null and \"operator_vehicles\".\"verification_note\" is null) or (\"operator_vehicles\".\"verified_on\" is not null and \"operator_vehicles\".\"verification_note\" is not null)"
+        }
+      }
+    },
+    "operators": {
+      "name": "operators",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "workspace_id": {
+          "name": "workspace_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "company_name": {
+          "name": "company_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "contact_name": {
+          "name": "contact_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "phone": {
+          "name": "phone",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "website": {
+          "name": "website",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "base_location": {
+          "name": "base_location",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "service_areas": {
+          "name": "service_areas",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'[]'"
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "notes": {
+          "name": "notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "client_request_id": {
+          "name": "client_request_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "version": {
+          "name": "version",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 1
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "operators_workspace_name_idx": {
+          "name": "operators_workspace_name_idx",
+          "columns": [
+            "workspace_id",
+            "company_name"
+          ],
+          "isUnique": false
+        },
+        "operators_workspace_request_uq": {
+          "name": "operators_workspace_request_uq",
+          "columns": [
+            "workspace_id",
+            "client_request_id"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "operators_workspace_id_workspaces_id_fk": {
+          "name": "operators_workspace_id_workspaces_id_fk",
+          "tableFrom": "operators",
+          "tableTo": "workspaces",
+          "columnsFrom": [
+            "workspace_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "operators_status_ck": {
+          "name": "operators_status_ck",
+          "value": "\"operators\".\"status\" in ('prospect', 'active', 'preferred', 'paused', 'do_not_use')"
+        }
+      }
+    },
+    "users": {
+      "name": "users",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "workspace_id": {
+          "name": "workspace_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "role": {
+          "name": "role",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "users_workspace_email_uq": {
+          "name": "users_workspace_email_uq",
+          "columns": [
+            "workspace_id",
+            "email"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "users_workspace_id_workspaces_id_fk": {
+          "name": "users_workspace_id_workspaces_id_fk",
+          "tableFrom": "users",
+          "tableTo": "workspaces",
+          "columnsFrom": [
+            "workspace_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "users_role_ck": {
+          "name": "users_role_ck",
+          "value": "\"users\".\"role\" in ('owner', 'admin', 'agent')"
+        }
+      }
+    },
+    "workspaces": {
+      "name": "workspaces",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "time_zone": {
+          "name": "time_zone",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "currency": {
+          "name": "currency",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'USD'"
+        },
+        "next_lead_number": {
+          "name": "next_lead_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 1001
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "workspaces_slug_unique": {
+          "name": "workspaces_slug_unique",
+          "columns": [
+            "slug"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    }
+  },
+  "views": {},
+  "enums": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "internal": {
+    "indexes": {}
+  }
+}

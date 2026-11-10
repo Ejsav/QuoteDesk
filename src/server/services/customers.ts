@@ -21,7 +21,7 @@ import { activities, customers, leads } from "../db/schema";
 import { logActivity } from "./activity-log";
 import { today, type ServiceContext } from "./context";
 import { ConflictError, DuplicateCustomerError, NotFoundError, RuleError, type DuplicateMatch } from "./errors";
-import { clampPage, contains, pageOf, type Page } from "./sql-helpers";
+import { contains, pageOf, pageWithin, type Page } from "./sql-helpers";
 
 type Executor = DB | Tx;
 
@@ -319,7 +319,6 @@ function customerSearch(q: string): SQL | undefined {
 
 export async function listCustomers(ctx: ServiceContext, params: CustomerListParams = {}): Promise<Page<CustomerListRow>> {
   const pageSize = params.pageSize ?? 25;
-  const page = clampPage(params.page);
   const filter = params.filter ?? "all";
   const where = and(
     eq(customers.workspaceId, ctx.workspace.id),
@@ -329,6 +328,7 @@ export async function listCustomers(ctx: ServiceContext, params: CustomerListPar
     filter === "company" ? sql`${customers.companyName} is not null` : undefined,
   );
   const total = ctx.db.select({ n: sql<number>`count(*)` }).from(customers).where(where).get()?.n ?? 0;
+  const page = pageWithin(params.page, total, pageSize);
 
   const order = (() => {
     switch (params.sort ?? "recent") {

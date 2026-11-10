@@ -10,10 +10,15 @@ This repository is the **first release foundation**: a fast, polished, working a
 
 ## Quick start
 
-Requirements: **Node.js 22.12+** (npm 10 ships with it). No external services, accounts or credentials.
+Requirements: **Node.js 22.12+** (`.nvmrc` pins 22; npm 10 ships with it). No external services, accounts or credentials.
 
 ```bash
-npm install
+git clone https://github.com/Ejsav/QuoteDesk.git
+cd QuoteDesk
+```
+
+```bash
+npm ci
 ```
 
 ```bash
@@ -35,7 +40,7 @@ If you open the app before setting up the database, it shows a setup screen with
 | `npm run dev` | Development server on port 3000 |
 | `npm run build` / `npm start` | Production build / serve it |
 | `npm run lint` | ESLint (Next.js core-web-vitals + TypeScript rules) |
-| `npm run typecheck` | `tsc --noEmit` across app, scripts and tests |
+| `npm run typecheck` | Generates route types (`next typegen`), then `tsc --noEmit` across app, scripts and tests |
 | `npm test` | Unit + integration tests (Vitest, in-memory SQLite) |
 | `npm run test:e2e` | End-to-end tests (Playwright) against a production build |
 | `npm run check` | lint + typecheck + unit/integration tests |
@@ -67,11 +72,13 @@ npm run test:e2e
 
 The end-to-end suite wipes and re-seeds its own database (`./data/e2e.db`), builds the app, serves it on port 3100 and drives a real browser through the acceptance journey: create a customer → create an inquiry → edit it → change status → schedule a follow-up → add a note → reload → see the dashboard change → search → filter → command palette → validation and double-submit protection → operator + vehicle → phone-sized status update. Your demo database is never touched.
 
-On a fresh machine, install the browser once first:
+On a fresh machine, install the browser once first (on Linux CI, add `--with-deps` to pull system libraries):
 
 ```bash
 npx playwright install chromium
 ```
+
+Set `E2E_PORT` if port 3100 is taken.
 
 ## What's inside
 

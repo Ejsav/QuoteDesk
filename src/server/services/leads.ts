@@ -55,7 +55,7 @@ import { logActivity } from "./activity-log";
 import { insertCustomer } from "./customers";
 import { today, type ServiceContext } from "./context";
 import { ConflictError, NotFoundError, RuleError, ValidationError, type FieldErrors } from "./errors";
-import { clampPage, contains, pageOf, type Page } from "./sql-helpers";
+import { contains, pageOf, pageWithin, type Page } from "./sql-helpers";
 
 const DAY_MS = 86_400_000;
 
@@ -823,7 +823,6 @@ export function compareAttention(a: AttentionReason, b: AttentionReason): number
 export async function listLeads(ctx: ServiceContext, query: LeadQuery, pageSize = 25): Promise<Page<LeadListRow> & { sort: LeadSort }> {
   const c = clockOf(ctx);
   const sort = effectiveSort(query);
-  const page = clampPage(query.page);
   const where = and(eq(leads.workspaceId, ctx.workspace.id), ...leadFilterConditions(query, c, ctx.workspace.timeZone));
 
   if (sort === "attention") {
@@ -831,6 +830,7 @@ export async function listLeads(ctx: ServiceContext, query: LeadQuery, pageSize 
     // bounded (open leads that need action), so rank in memory.
     const all = selectLeadRows(ctx).where(where).orderBy(desc(leads.createdAt)).limit(2000).all().map((r) => toListRow(r, c));
     all.sort((a, b) => (a.attention && b.attention ? compareAttention(a.attention, b.attention) : a.attention ? -1 : b.attention ? 1 : 0));
+    const page = pageWithin(query.page, all.length, pageSize);
     const start = (page - 1) * pageSize;
     return { ...pageOf(all.slice(start, start + pageSize), all.length, page, pageSize), sort };
   }
@@ -842,6 +842,7 @@ export async function listLeads(ctx: ServiceContext, query: LeadQuery, pageSize 
       .innerJoin(customers, eq(customers.id, leads.customerId))
       .where(where)
       .get()?.n ?? 0;
+  const page = pageWithin(query.page, total, pageSize);
   const rows = selectLeadRows(ctx)
     .where(where)
     .orderBy(...sortOrder(sort))

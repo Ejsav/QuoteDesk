@@ -34,7 +34,7 @@ What exists today, and what comes next. Each milestone should ship complete — 
 - [x] ⌘K command palette, responsive shell, light and dark themes, CVD-validated chart and status colors
 - [x] SQLite + Drizzle migrations, CHECK-constraint integrity, workspace-scoped data model
 - [x] Deterministic demo dataset; safe seed and reset CLIs
-- [x] 81 unit/integration tests, 6 end-to-end journeys against a production build
+- [x] 82 unit/integration tests (time-zone independent), 6 end-to-end journeys against a production build
 
 ## Next: Quoting (milestone 2)
 

@@ -11,6 +11,11 @@ export function clampPage(page: number | undefined): number {
   return Number.isFinite(page) && page && page > 0 ? Math.floor(page) : 1;
 }
 
+/** Keep a requested page inside the result set (e.g. ?page=99 after filtering). */
+export function pageWithin(page: number | undefined, total: number, pageSize: number): number {
+  return Math.min(clampPage(page), Math.max(1, Math.ceil(total / pageSize)));
+}
+
 export interface Page<T> {
   rows: T[];
   total: number;

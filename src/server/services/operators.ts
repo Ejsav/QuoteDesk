@@ -35,7 +35,7 @@ import { operatorCompliance, operatorVehicles, operators, users, type OperatorCo
 import { logActivity } from "./activity-log";
 import { today, type ServiceContext } from "./context";
 import { ConflictError, NotFoundError, RuleError, ValidationError } from "./errors";
-import { clampPage, contains, pageOf, type Page } from "./sql-helpers";
+import { contains, pageOf, pageWithin, type Page } from "./sql-helpers";
 
 function getScopedOperator(tx: Tx, ctx: ServiceContext, id: string): OperatorRow {
   const operator = tx
@@ -476,7 +476,6 @@ const statusRankSql = sql`case ${operators.status} when 'preferred' then 0 when 
 
 export async function listOperators(ctx: ServiceContext, params: OperatorListParams = {}): Promise<Page<OperatorListRow>> {
   const pageSize = params.pageSize ?? 25;
-  const page = clampPage(params.page);
   const todayDate = today(ctx);
   const q = params.q?.trim() ?? "";
   const digits = q ? phoneSearchDigits(q) : null;
@@ -505,6 +504,7 @@ export async function listOperators(ctx: ServiceContext, params: OperatorListPar
   );
 
   const total = ctx.db.select({ n: sql<number>`count(*)` }).from(operators).where(where).get()?.n ?? 0;
+  const page = pageWithin(params.page, total, pageSize);
   const order = (() => {
     switch (params.sort ?? "status") {
       case "name":

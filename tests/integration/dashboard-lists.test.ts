@@ -102,3 +102,17 @@ describe("dashboard", () => {
     expect(results.customers.map((c) => c.fullName).sort()).toEqual(["Jon Mercer", "Jonathan Mercer"]);
   });
 });
+
+describe("pagination", () => {
+  it("keeps out-of-range pages inside the result set instead of showing an empty list", async () => {
+    const leadsPage = await listLeads(ctx, q({ view: "all", page: 999 }), 25);
+    expect(leadsPage.page).toBe(leadsPage.pageCount);
+    expect(leadsPage.rows.length).toBeGreaterThan(0);
+    const attentionPage = await listLeads(ctx, q({ view: "attention", sort: "attention", page: 999 }), 5);
+    expect(attentionPage.page).toBe(attentionPage.pageCount);
+    expect(attentionPage.rows.length).toBeGreaterThan(0);
+    const customersPage = await listCustomers(ctx, { page: 999, pageSize: 10 });
+    expect(customersPage.page).toBe(customersPage.pageCount);
+    expect(customersPage.rows.length).toBeGreaterThan(0);
+  });
+});

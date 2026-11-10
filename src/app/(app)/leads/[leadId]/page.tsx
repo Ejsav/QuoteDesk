@@ -2,6 +2,7 @@ import { PencilLine } from "lucide-react";
 import type { Metadata, Route } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { cache } from "react";
 import { ActivityTimeline } from "@/components/activity/activity-timeline";
 import { ActivityComposer } from "@/components/leads/activity-composer";
 import { FollowUpCard } from "@/components/leads/follow-up-card";
@@ -30,17 +31,19 @@ import { findFleetMatches } from "@/server/services/operators";
 
 type Params = { params: Promise<{ leadId: string }> };
 
+/** Request-scoped: metadata and the page share one load. */
+const loadLead = cache(async (leadId: string) => getLead(await getContext(), leadId));
+
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { leadId } = await params;
-  const ctx = await getContext();
-  const detail = await getLead(ctx, leadId);
+  const detail = await loadLead(leadId);
   return { title: detail ? `${formatLeadNumber(detail.lead.number)} · ${leadTitle(detail.lead)}` : "Lead not found" };
 }
 
 export default async function LeadPage({ params }: Params) {
   const { leadId } = await params;
   const ctx = await getContext();
-  const detail = await getLead(ctx, leadId);
+  const detail = await loadLead(leadId);
   if (!detail) notFound();
 
   const { lead, customer } = detail;

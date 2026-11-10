@@ -2,6 +2,7 @@ import { ArrowUpRight, Mail, MapPin, Pencil, Phone } from "lucide-react";
 import type { Metadata, Route } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { cache } from "react";
 import { ActivityTimeline } from "@/components/activity/activity-timeline";
 import { ComplianceSection } from "@/components/operators/compliance-section";
 import { FleetSection } from "@/components/operators/fleet-section";
@@ -23,10 +24,12 @@ import { cn, pluralize } from "@/lib/utils";
 
 type Params = { params: Promise<{ operatorId: string }> };
 
+/** Request-scoped: metadata and the page share one load. */
+const loadOperator = cache(async (operatorId: string) => getOperator(await getContext(), operatorId));
+
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { operatorId } = await params;
-  const ctx = await getContext();
-  const detail = await getOperator(ctx, operatorId);
+  const detail = await loadOperator(operatorId);
   return { title: detail?.operator.companyName ?? "Operator not found" };
 }
 
@@ -51,7 +54,7 @@ function Stat({ label, value, sub, tone }: { label: string; value: React.ReactNo
 export default async function OperatorPage({ params }: Params) {
   const { operatorId } = await params;
   const ctx = await getContext();
-  const detail = await getOperator(ctx, operatorId);
+  const detail = await loadOperator(operatorId);
   if (!detail) notFound();
   const activity = await listOperatorActivity(ctx, operatorId);
   const todayDate = today(ctx);
